@@ -46,7 +46,7 @@ public class CourseTools {
 
     @Tool(description = "生成预约单，返回预约单号")
     public Integer createCourseReservation(
-            @ToolParam(description = "预约课程1") String course,
+            @ToolParam(description = "预约课程") String course,
             @ToolParam(description = "预约校区") String school,
             @ToolParam(description = "学生姓名") String studentName,
             @ToolParam(description = "联系电话") String contactInfo,
