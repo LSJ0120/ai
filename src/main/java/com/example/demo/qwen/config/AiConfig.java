@@ -7,7 +7,9 @@ import org.springframework.ai.chat.client.advisor.QuestionAnswerAdvisor;
 import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
 import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.memory.InMemoryChatMemory;
+import org.springframework.ai.embedding.EmbeddingModel;
 import org.springframework.ai.vectorstore.SearchRequest;
+import org.springframework.ai.vectorstore.SimpleVectorStore;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,6 +25,11 @@ public class AiConfig {
     @Bean
     public ChatMemory chatMemory() {
         return new InMemoryChatMemory();
+    }
+
+    @Bean
+    public VectorStore vectorStore(EmbeddingModel embeddingModel) {
+        return SimpleVectorStore.builder(embeddingModel).build();
     }
 
     /**
@@ -63,24 +70,23 @@ public class AiConfig {
                 .build();
     }
 
-//    @Bean
-//    public ChatClient pdfChatClient(OpenAiChatModel model, ChatMemory chatMemory, VectorStore vectorStore) {
-//        return ChatClient
-//                .builder(model)
-//                .defaultSystem("请根据上下文回答问题，遇到上下文没有的问题，不要随意编造。")
-//                .defaultAdvisors(
-//                        new SimpleLoggerAdvisor(),
-//                        new MessageChatMemoryAdvisor(chatMemory),
-//                        new QuestionAnswerAdvisor(
-//                                vectorStore,
-//                                SearchRequest.builder()
-//                                        .similarityThreshold(0.6)
-//                                        .topK(2)
-//                                        .build()
-//                        )
-//                )
-//                .build();
-//    }
+    @Bean
+    public ChatClient pdfChatClient(ChatClient.Builder builder, ChatMemory chatMemory, VectorStore vectorStore) {
+        return builder
+                .defaultSystem("请根据上下文回答问题，遇到上下文没有的问题，不要随意编造。")
+                .defaultAdvisors(
+                        new SimpleLoggerAdvisor(),
+                        new MessageChatMemoryAdvisor(chatMemory),
+                        new QuestionAnswerAdvisor(
+                                vectorStore,
+                                SearchRequest.builder()
+                                        .similarityThreshold(0.6)
+                                        .topK(1)
+                                        .build()
+                        )
+                )
+                .build();
+    }
 
 //    @Bean
 //    public AlibabaOpenAiChatModel alibabaOpenAiChatModel(OpenAiConnectionProperties commonProperties, OpenAiChatProperties chatProperties, ObjectProvider<RestClient.Builder> restClientBuilderProvider, ObjectProvider<WebClient.Builder> webClientBuilderProvider, ToolCallingManager toolCallingManager, RetryTemplate retryTemplate, ResponseErrorHandler responseErrorHandler, ObjectProvider<ObservationRegistry> observationRegistry, ObjectProvider<ChatModelObservationConvention> observationConvention) {
