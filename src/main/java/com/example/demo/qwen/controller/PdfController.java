@@ -1,6 +1,6 @@
 package com.example.demo.qwen.controller;
 
-import com.itheima.ai.entity.vo.Result;
+
 import com.itheima.ai.repository.ChatHistoryRepository;
 import com.itheima.ai.repository.FileRepository;
 import lombok.RequiredArgsConstructor;
