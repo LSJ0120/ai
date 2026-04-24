@@ -1,0 +1,44 @@
+spring:
+  application:
+    name: demo
+
+  ai:
+    dashscope:
+      api-key: ${VOLC_ACCESS_KEY1:default-test-key-1}  # 你的 API-KEY
+      chat:
+        enabled: true
+        model: qwen-turbo             # 可选 qwen-turbo/qwen-max
+        temperature: 0.7              # 0~1，值越低越准确
+      embedding:
+        options:
+          model: text-embedding-v4
+          dimensions: 1024
+
+  llm:
+    tongyi:
+      api-key: ${VOLC_ACCESS_KEY2:default-test-key-2} # 你的百炼API Key
+      api-url: https://dashscope.aliyuncs.com/api/v1/services/aigc/text-generation/generation
+      model: qwen-turbo  # 可选 qwen-plus/qwen-max/qwen-72b-instruct
+      temperature: 0.3
+      max-tokens: 2048
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/itheima?serverTimezone=Asia/Shanghai&useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&tinyInt1isBit=false&allowPublicKeyRetrieval=true&allowMultiQueries=true&useServerPrepStmts=false
+    username: root
+    password: 123456
+
+# ???????
+doubao:
+  access-key: ${DOUBAO_KEY3:default-test-doubao-key}
+  secret-key: ${DOUBAO_SECRET:default-test-doubao-secret}
+  endpoint-id: "ep-20260408211405-f8tmm"
+  model: "ep-20260408211405-f8tmm"
+  api-key: "612fe3b5-e5cd-458f-a175-acf9d72e3326"
+
+logging:
+  level:
+    org.springframework.ai.*: DEBUG
+    com.example.demo.*: DEBUG
+
+
