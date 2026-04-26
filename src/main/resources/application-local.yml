@@ -4,7 +4,8 @@ spring:
 
   ai:
     dashscope:
-      api-key: ${VOLC_ACCESS_KEY1:default-test-key-1}  # 你的 API-KEY
+#      从application.yml文件读取
+#      api-key: ${VOLC_ACCESS_KEY1:default-test-key-1}  # 你的 API-KEY
       chat:
         enabled: true
         model: qwen-turbo             # 可选 qwen-turbo/qwen-max
@@ -16,7 +17,7 @@ spring:
 
   llm:
     tongyi:
-      api-key: ${VOLC_ACCESS_KEY2:default-test-key-2} # 你的百炼API Key
+#      api-key: ${VOLC_ACCESS_KEY2:default-test-key-2} # 你的百炼API Key
       api-url: https://dashscope.aliyuncs.com/api/v1/services/aigc/text-generation/generation
       model: qwen-turbo  # 可选 qwen-plus/qwen-max/qwen-72b-instruct
       temperature: 0.3
