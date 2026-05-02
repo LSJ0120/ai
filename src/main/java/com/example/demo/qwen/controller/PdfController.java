@@ -58,7 +58,8 @@ public class PdfController {
         return pdfChatClient.prompt()
                 .user(prompt)
                 .advisors(a -> a.param(CHAT_MEMORY_CONVERSATION_ID_KEY, chatId))
-                .advisors(a -> a.param(FILTER_EXPRESSION, "file_name == '" + file.getFilename() + "'"))
+                //加了这一行之后 prompt必须带文件名
+//                .advisors(a -> a.param(FILTER_EXPRESSION, "file_name == '" + file.getFilename() + "'"))
                 .stream()
                 .content();
     }
@@ -107,17 +108,15 @@ public class PdfController {
     }
 
     private void writeToVectorStore(Resource resource) {
-        // 1.创建PDF的读取器
         PagePdfDocumentReader reader = new PagePdfDocumentReader(
-                resource, // 文件源
+                resource,
                 PdfDocumentReaderConfig.builder()
                         .withPageExtractedTextFormatter(ExtractedTextFormatter.defaults())
-                        .withPagesPerDocument(1) // 每1页PDF作为一个Document
+                        .withPagesPerDocument(1)
                         .build()
         );
-        // 2.读取PDF文档，拆分为Document
         List<Document> documents = reader.read();
-        // 3.写入向量库
+
         vectorStore.add(documents);
     }
 }

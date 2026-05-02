@@ -80,8 +80,8 @@ public class AiConfig {
                         new QuestionAnswerAdvisor(
                                 vectorStore,
                                 SearchRequest.builder()
-                                        .similarityThreshold(0.6)
-                                        .topK(1)
+                                        .similarityThreshold(0.3)
+                                        .topK(3)
                                         .build()
                         )
                 )
